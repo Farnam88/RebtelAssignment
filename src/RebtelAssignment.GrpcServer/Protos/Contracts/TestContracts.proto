@@ -1,0 +1,11 @@
+﻿syntax = "proto3";
+
+package initial_proto;
+
+message TestRequest {
+  string Value = 1;
+}
+
+message TestResponse {
+  string message = 1;
+}
