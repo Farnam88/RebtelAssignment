@@ -1,6 +1,6 @@
 ﻿syntax = "proto3";
 
-package initial_proto;
+package books;
 
 message TestRequest {
   string Value = 1;

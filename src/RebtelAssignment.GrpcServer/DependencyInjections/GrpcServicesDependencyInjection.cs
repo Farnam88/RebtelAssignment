@@ -1,9 +1,11 @@
-﻿namespace RebtelAssignment.GrpcServer.DependencyInjections;
+﻿using RebtelAssignment.GrpcServer.Helpers.Interceptors;
+
+namespace RebtelAssignment.GrpcServer.DependencyInjections;
 
 public static class GrpcServicesDependencyInjection
 {
     public static void RegisterGrpcServices(this IServiceCollection services)
     {
-        services.AddGrpc();
+        services.AddGrpc(options => { options.Interceptors.Add<ExceptionInterceptor>(); });
     }
 }
