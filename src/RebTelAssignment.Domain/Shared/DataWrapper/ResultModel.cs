@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using RebTelAssignment.Domain.Shared.CustomExceptions;
+using RebTelAssignment.Domain.Shared.CustomExceptions.Shared;
 
 namespace RebTelAssignment.Domain.Shared.DataWrapper;
 

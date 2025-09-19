@@ -9,10 +9,24 @@
     <ItemGroup>
         <Protobuf Include="Protos\Contracts\*.proto" GrpcServices="Server" ProtoRoot="Protos" />
         <Protobuf Include="Protos\*.proto" GrpcServices="Server" ProtoRoot="Protos"/>
+        <Protobuf Update="Protos\LoanService.proto">
+          <Access>Public</Access>
+          <ProtoCompile>True</ProtoCompile>
+          <CompileOutputs>True</CompileOutputs>
+          <OutputDir>obj\Debug\net8.0\</OutputDir>
+          <Generator>MSBuild:Compile</Generator>
+        </Protobuf>
+        <Protobuf Update="Protos\BookService.proto">
+          <Access>Public</Access>
+          <ProtoCompile>True</ProtoCompile>
+          <CompileOutputs>True</CompileOutputs>
+          <OutputDir>obj\Debug\net8.0\</OutputDir>
+          <Generator>MSBuild:Compile</Generator>
+        </Protobuf>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Grpc.AspNetCore" Version="2.57.0"/>
+        <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
     </ItemGroup>
 
     <ItemGroup>

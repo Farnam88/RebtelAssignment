@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/wrappers.proto";
+
+package Common;
+// ********** Shared **********
+
+// The request message containing the user's name.
+message DecimalValue {
+
+  // Whole units part of the amount
+  int64 units = 1;
+
+  // Nano units of the amount (10^-9)
+  // Must be same sign as units
+  sfixed32 nanos = 2;
+}
+
+message TimeRange {
+  google.protobuf.Timestamp From = 1;
+  google.protobuf.Timestamp To = 2;
+}
+
+
+message Member{
+  int64 Id = 1;
+  string Email = 2;
+  string DisplayName = 3;
+}
+
+//Common Contracts
+message Loan{
+  int64 Id = 1;
+  int64 MemberId = 2;
+  google.protobuf.Timestamp LoanedAt = 6;
+  google.protobuf.Timestamp DueAt = 7;
+  repeated LoanItem Items = 15;
+}
+message LoanItem{
+  int64 LoanId = 1;
+  int64 BatchId = 2;
+  int64 BookId = 3;
+  LoanItemStatus ItemStatus = 5;
+  google.protobuf.Timestamp ReturnedAt = 6;
+}
+
+enum LoanItemStatus{
+  BRS_Unspecified = 0;
+  BRS_Loaned = 1;
+  BRS_Returned = 2;
+  BRS_Damaged = 3;
+  BRS_Missing = 4;
+}
+
+message Book {
+  int64 Id = 1;
+  string Title = 2;
+  repeated string Author = 3;
+  string Subjects = 4;
+}
+
+message InventoryItem{
+  int64 BatchId = 1;
+  int64 Quantity = 2;
+  int64 QuantityLent = 3;
+  int64 AvailableQuantity = 4;
+}
+message Batch{
+  int64 Id = 1;
+  int64 BookId = 2;
+  string Isbn = 3;
+  string Publisher = 4;
+  int64 Pages = 5;
+  google.protobuf.StringValue Volume = 6;
+  google.protobuf.Timestamp PublishDate = 7;
+}

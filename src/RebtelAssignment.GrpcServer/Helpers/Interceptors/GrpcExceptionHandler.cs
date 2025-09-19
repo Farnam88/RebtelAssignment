@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using RebTelAssignment.Domain.Shared.CustomExceptions;
+using RebTelAssignment.Domain.Shared.CustomExceptions.Shared;
 
 namespace RebtelAssignment.GrpcServer.Helpers.Interceptors;
 
@@ -21,12 +22,14 @@ public static class GrpcExceptionHandler
         var res = exception switch
         {
             BusinessLogicException logicException => HandleBusinessException(logicException, logger),
+            DataValidationException validationException => HandleValidationException(validationException,
+                logger),
             NullException nullException => HandleNullException(nullException, logger),
             NotFoundException foundException =>
                 HandleNotFoundException(foundException, logger),
-            DataValidationException validationException => HandleValidationException(validationException,
-                logger),
+  
             RpcException rpcException => HandleRpcException(rpcException, logger),
+            BaseException baseException => HandleBaseExceptions(baseException,logger),
             _ => HandleDefault(exception, logger)
         };
         context.Status = res.Status;
@@ -62,7 +65,7 @@ public static class GrpcExceptionHandler
         return new RpcException(new Status(StatusCode.NotFound, exception.DisplayMessage),
             CreateTrailers(exception), exception.Message);
     }
-
+    
     private static RpcException HandleValidationException<T>(DataValidationException exception,
         ILogger<T> logger)
     {
@@ -82,13 +85,34 @@ public static class GrpcExceptionHandler
         return new RpcException(exception.Status, responseMetadata, "gRPC error");
     }
 
+    /// <summary>
+    /// Handles Null, Internal, External and Unhandled exceptions 
+    /// </summary>
+    /// <param name="baseException" cref="BaseException">Null, Internal, External and Unhandled exceptions</param>
+    /// <param name="logger">Logger</param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns>Rpc exception</returns>
+    private static RpcException HandleBaseExceptions<T>(BaseException baseException, ILogger<T> logger)
+    {
+        Log(logger, baseException, LogLevel.Error, baseException.Message);
+        return new RpcException(new Status(StatusCode.Internal, baseException.DisplayMessage),
+            CreateTrailers(baseException
+            ), baseException.DisplayMessage);
+    }
+    /// <summary>
+    /// Handles internal .net exceptions
+    /// </summary>
+    /// <param name="exception">exception</param>
+    /// <param name="logger">logger</param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns>Rpc exception</returns>
     private static RpcException HandleDefault<T>(Exception exception, ILogger<T> logger)
     {
         Log(logger, exception, LogLevel.Error, exception.Message);
         var customException = new InternalServiceException(exception.Message, innerException: exception);
         return new RpcException(new Status(StatusCode.Internal, customException.DisplayMessage),
             CreateTrailers(customException
-            ), customException.Message);
+            ), customException.DisplayMessage);
     }
 
     private static Metadata CreateTrailers(BaseException exception)

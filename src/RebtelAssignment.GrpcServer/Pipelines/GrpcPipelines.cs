@@ -1,6 +1,4 @@
-﻿using RebtelAssignment.GrpcServer.Services;
-
-namespace RebtelAssignment.GrpcServer.Pipelines;
+﻿namespace RebtelAssignment.GrpcServer.Pipelines;
 
 public static class GrpcPipelines
 {

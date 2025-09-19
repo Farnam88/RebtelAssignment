@@ -1,6 +1,6 @@
 ﻿using RebTelAssignment.Domain.Shared.DataWrapper;
 
-namespace RebTelAssignment.Domain.Shared.CustomExceptions;
+namespace RebTelAssignment.Domain.Shared.CustomExceptions.Shared;
 /// <summary>
 /// The base class for custom exceptions
 /// </summary>

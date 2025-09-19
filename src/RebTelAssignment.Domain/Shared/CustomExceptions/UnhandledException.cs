@@ -1,4 +1,5 @@
-﻿using RebTelAssignment.Domain.Shared.DataWrapper;
+﻿using RebTelAssignment.Domain.Shared.CustomExceptions.Shared;
+using RebTelAssignment.Domain.Shared.DataWrapper;
 
 namespace RebTelAssignment.Domain.Shared.CustomExceptions;
 

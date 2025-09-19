@@ -1,4 +1,4 @@
-﻿namespace Shared;
+﻿namespace Common;
 
 public partial class DecimalValue
 {

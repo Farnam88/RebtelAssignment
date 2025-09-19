@@ -1,4 +1,4 @@
-﻿namespace RebTelAssignment.Domain.Shared.CustomExceptions;
+﻿namespace RebTelAssignment.Domain.Shared.CustomExceptions.Shared;
 
 public class ExceptionErrorCodes
 {
@@ -9,5 +9,4 @@ public class ExceptionErrorCodes
     public const long ExternalServiceException = 1005;
     public const long InternalServiceException = 1006;
     public const long DataValidationException = 1007;
-    public const long NotAcceptableException = 1008;
 }

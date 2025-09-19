@@ -1,8 +1,7 @@
-namespace RebTelAssignment.Domain.Shared.CustomExceptions;
+namespace RebTelAssignment.Domain.Shared.CustomExceptions.Shared;
 
 internal static class ExceptionErrorMessages
 {
-    public const string NotAcceptableException = "Argument is not acceptable";
     public const string BusinessLogicException = "Business logic exception";
     public const string DataValidationException = "Invalid data exception";
     public const string ExternalServiceException = "External service exception";
