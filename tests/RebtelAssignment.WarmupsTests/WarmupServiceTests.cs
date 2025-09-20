@@ -51,7 +51,7 @@ public class WarmupServiceTests
 
     [Theory]
     [MemberData(nameof(OddNumberTestInput))]
-    public void GetOddNumbersList_ShouldReturn_AListOfOddNumbersFromTheInputArray(int[] input,
+    public void GetOddNumbersList_ShouldReturn_AListOfOddNumbersFromTheInputArray(int[]? input,
         List<int> expectedOddNumbersList)
     {
         //Act
@@ -85,7 +85,7 @@ public class WarmupServiceTests
         },
         new object[]
         {
-            null,
+            null!,
             new List<int>()
         }
     };

@@ -16,7 +16,7 @@ message LoanRequest{
 
 message ReturnLoanItem{
   int64 BatchId = 1;
-  Common.LoanItemStatus ItemStatus = 2;
+  Common.LoanItemStatusMsg ItemStatus = 2;
 }
 message ReturnBookRequest{
   int64 LoanId = 1;

@@ -26,7 +26,7 @@ message MostLoanedBooksResponse {
   repeated MostLoanedBooksRow Items = 1;
   int32 PageNumber = 2;
   int32 PageSize = 3;
-  int64 TotalRecords = 4;
+  int64 TotalItems = 4;
 }
 
 //Top Borrowers
@@ -67,13 +67,14 @@ message CoLoanedBooksRequest{
 }
 message CoLoanedBooksRow{
   int64 BookId = 1;
-  int64 Count = 2;
-  repeated Common.Member Members = 3;
+  string Title=2;
+  int32 Count = 3;
+  repeated Common.Member Members = 4;
 }
 message CoLoanedBooksResponse{
   repeated CoLoanedBooksRow Items = 1;
   int32 PageNumber = 2;
   int32 PageSize = 3;
-  int64 TotalRecords = 4;
+  int32 TotalItems = 4;
 }
 

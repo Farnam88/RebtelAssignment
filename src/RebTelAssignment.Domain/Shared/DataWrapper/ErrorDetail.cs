@@ -4,9 +4,6 @@ namespace RebTelAssignment.Domain.Shared.DataWrapper;
 
 /// <summary>
 ///  Additional data about the error that occurred.
-/// <para>
-/// Deserialization support: only for System.Text.Json
-/// </para>
 /// </summary>
 public class ErrorDetail
 {

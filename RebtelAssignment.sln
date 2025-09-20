@@ -12,6 +12,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RebtelAssignment.WarmupsTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RebTelAssignment.Domain", "src\RebTelAssignment.Domain\RebTelAssignment.Domain.csproj", "{9D22536E-8DF8-449B-837A-905F633A5B3C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RebtelAssignment.Infrastructure", "src\RebtelAssignment.Infrastructure\RebtelAssignment.Infrastructure.csproj", "{6BD63A3C-DE90-4BF4-B7F0-74F6922E41BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RebtelAssignment.Application", "src\RebtelAssignment.Application\RebtelAssignment.Application.csproj", "{B000B068-2073-479A-9779-33CE7DF3413A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,11 +38,21 @@ Global
 		{9D22536E-8DF8-449B-837A-905F633A5B3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D22536E-8DF8-449B-837A-905F633A5B3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D22536E-8DF8-449B-837A-905F633A5B3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BD63A3C-DE90-4BF4-B7F0-74F6922E41BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BD63A3C-DE90-4BF4-B7F0-74F6922E41BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BD63A3C-DE90-4BF4-B7F0-74F6922E41BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BD63A3C-DE90-4BF4-B7F0-74F6922E41BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B000B068-2073-479A-9779-33CE7DF3413A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B000B068-2073-479A-9779-33CE7DF3413A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B000B068-2073-479A-9779-33CE7DF3413A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B000B068-2073-479A-9779-33CE7DF3413A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6DEE87DB-E7B1-4B57-B10B-E584F5F77BFF} = {1C2C6A18-0351-44A7-9DCB-C1745791AA0A}
 		{72B38FCF-91B4-4A11-AACB-EB6B0529FF93} = {BFBCC526-BF2E-4856-8E86-C3D8646F2C61}
 		{5C70A60E-1670-4DB2-920D-2559F194371F} = {BFBCC526-BF2E-4856-8E86-C3D8646F2C61}
 		{9D22536E-8DF8-449B-837A-905F633A5B3C} = {1C2C6A18-0351-44A7-9DCB-C1745791AA0A}
+		{6BD63A3C-DE90-4BF4-B7F0-74F6922E41BA} = {1C2C6A18-0351-44A7-9DCB-C1745791AA0A}
+		{B000B068-2073-479A-9779-33CE7DF3413A} = {1C2C6A18-0351-44A7-9DCB-C1745791AA0A}
 	EndGlobalSection
 EndGlobal

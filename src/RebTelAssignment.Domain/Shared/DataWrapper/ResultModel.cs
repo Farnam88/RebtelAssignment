@@ -6,9 +6,6 @@ namespace RebTelAssignment.Domain.Shared.DataWrapper;
 
 /// <summary>
 /// General purpose result model to encapsulate the response of services or apis.
-/// <para>
-/// Deserialization support: only for System.Text.Json
-/// </para>
 /// </summary>
 /// <typeparam name="TResult">Target output Result</typeparam>
 public sealed class ResultModel<TResult>

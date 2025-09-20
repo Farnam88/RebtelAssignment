@@ -4,19 +4,9 @@ namespace RebTelAssignment.Domain.Shared.DataWrapper;
 
 /// <summary>
 /// Additional data to pass along with response.
-/// <para>
-/// Deserialization support: only for System.Text.Json
-/// </para>
 /// </summary>
 public class MetaData
 {
-    /// <summary>
-    /// Deserialization only
-    /// </summary>
-    public MetaData()
-    {
-    }
-
     /// <summary>
     /// Constructor
     /// </summary>

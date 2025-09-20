@@ -17,3 +17,7 @@ The scope requested for this home assignment was quite large, so I tried to keep
    1. **InventoryItem:** Upholds total, loaned, damaged, and missing quantity of a batch.
 4. **Loan:** Hold data for the lent item and to whom it was loaned, also date related information such as Loan and due date.
    1. **LoanItem:** this entity keeps data related to the batch, book, state of the loaned item.
+5. **LoanSetting:**
+   1. Settings of a library application for a loaning is a lot more complex I just kept it simple to keep the scope in checked.
+6. **Return Policy, Loyalty program, and potential fee for damaged or missing books:**
+   1. I had these topics in mind but I had to let go of them to keep the scope in checked.
