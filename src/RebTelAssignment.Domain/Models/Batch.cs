@@ -18,7 +18,7 @@ public class Batch : SimpleAuditEntity
 
     public virtual Book Book { get; set; }
     public virtual ICollection<LoanItem> LoanItems { get; set; }
-    public virtual ICollection<InventoryItem> InventoryItem { get; set; }
+    public virtual InventoryItem InventoryItem { get; set; }
 
     //future extensions of the Batch
     // public string? Section { get; set; }

@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Common\Abstractions\"/>
+        <Folder Include="Core\Loaning\Queries\" />
     </ItemGroup>
 
 </Project>

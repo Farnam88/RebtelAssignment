@@ -21,42 +21,42 @@ internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class,
     public async Task<TResult?> FirstOrDefaultAsync<TResult>(ISpecification<TEntity, TResult> spec,
         CancellationToken cancellationToken = default)
     {
-        return (await ApplySpecification(spec).FirstOrDefaultAsync(cancellationToken))!;
+        return (await _dbSet.WithSpecification(spec).FirstOrDefaultAsync(cancellationToken))!;
     }
 
     public async Task<TEntity?> FirstOrDefaultAsync(ISpecification<TEntity> spec,
         CancellationToken cancellationToken = default)
     {
-        return (await ApplySpecification(spec).FirstOrDefaultAsync(cancellationToken))!;
+        return (await _dbSet.WithSpecification(spec).FirstOrDefaultAsync(cancellationToken))!;
     }
 
     public async Task<TResult> FirstAsync<TResult>(ISpecification<TEntity, TResult> spec,
         CancellationToken cancellationToken = default)
     {
-        return await ApplySpecification(spec).FirstAsync(cancellationToken);
+        return await _dbSet.WithSpecification(spec).FirstAsync(cancellationToken);
     }
 
     public async Task<TEntity> FirstAsync(ISpecification<TEntity> spec,
         CancellationToken cancellationToken = default)
     {
-        return await ApplySpecification(spec).FirstAsync(cancellationToken);
+        return await _dbSet.WithSpecification(spec).FirstAsync(cancellationToken);
     }
 
     public async Task<IList<TResult>> ToListAsync<TResult>(ISpecification<TEntity, TResult> spec,
         CancellationToken cancellationToken = default)
     {
-        return await ApplySpecification(spec).ToListAsync(cancellationToken);
+        return await _dbSet.WithSpecification(spec).ToListAsync(cancellationToken);
     }
 
     public async Task<IList<TEntity>> ToListAsync(ISpecification<TEntity> spec,
         CancellationToken cancellationToken = default)
     {
-        return await ApplySpecification(spec).ToListAsync(cancellationToken);
+        return await _dbSet.WithSpecification(spec).ToListAsync(cancellationToken)??new List<TEntity>();;
     }
 
     public async Task<int> CountAsync(ISpecification<TEntity> spec, CancellationToken cancellationToken = default)
     {
-        return await ApplySpecification(spec).CountAsync(cancellationToken);
+        return await _dbSet.WithSpecification(spec).CountAsync(cancellationToken);
     }
 
     public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
@@ -77,17 +77,5 @@ internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class,
     public void Delete(TEntity entity)
     {
         _dbSet.Remove(entity);
-    }
-
-    private IQueryable<TEntity> ApplySpecification(ISpecification<TEntity> spec)
-    {
-        var evaluator = new SpecificationEvaluator();
-        return evaluator.GetQuery(_dbSet.AsQueryable(), spec);
-    }
-
-    private IQueryable<TResult> ApplySpecification<TResult>(ISpecification<TEntity, TResult> spec)
-    {
-        var evaluator = new SpecificationEvaluator();
-        return evaluator.GetQuery(_dbSet.AsQueryable(), spec);
     }
 }

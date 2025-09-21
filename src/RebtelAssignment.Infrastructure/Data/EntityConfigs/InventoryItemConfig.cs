@@ -34,7 +34,6 @@ public class InventoryItemConfig : IEntityTypeConfiguration<InventoryItem>
             .IsRequired();
 
         builder.Ignore(p => p.QuantityAvailable)
-            
             /*QuantityAvailable should be a computed field but, it does not work on in-memory database
         builder.Property(p => p.QuantityAvailable)
             .HasComputedColumnSql(
@@ -42,13 +41,13 @@ public class InventoryItemConfig : IEntityTypeConfiguration<InventoryItem>
                 $"{nameof(InventoryItem.QuantityDamaged)}-{nameof(InventoryItem.QuantityMissing)}",
                 true)
             .ValueGeneratedOnAddOrUpdate()*/;
-        
+
         /*
         This works only when it not an in-memory database and, it prevents negative numbers in columns such as
         Quantity, QuantityLoaned, QuantityDamaged, QuantityMissing and, QuantityAvailable;
         builder.ToTable("InventoryItems", t =>
         {
-            //Non negative 
+            //Non negative
             t.HasCheckConstraint(
                 "CK_inventory_item_consistent",
                 $"{nameof(InventoryItem.Quantity)} >= 0 AND {nameof(InventoryItem.QuantityLoaned)}  >= 0 AND " +
@@ -61,7 +60,7 @@ public class InventoryItemConfig : IEntityTypeConfiguration<InventoryItem>
                 $"{nameof(InventoryItem.QuantityDamaged)}-{nameof(InventoryItem.QuantityMissing)}) >= 0");
         });
         */
-        
+
         builder.Property(p => p.CreatedAt)
             .IsRequired()
             .HasDefaultValueSql("GETUTCDATE()")
@@ -76,11 +75,12 @@ public class InventoryItemConfig : IEntityTypeConfiguration<InventoryItem>
             .IsRowVersion();
 
         builder.HasOne<Batch>(b => b.Batch)
-            .WithMany(m => m.InventoryItem)
-            .HasForeignKey(f => f.BatchId);
+            .WithOne(m => m.InventoryItem)
+            .HasForeignKey<InventoryItem>(f => f.BatchId);
 
         builder.HasOne<Book>(b => b.Book)
             .WithMany(m => m.InventoryItems)
-            .HasForeignKey(f => f.BookId);
+            .HasForeignKey(f => f.BookId)
+            .IsRequired();
     }
 }
