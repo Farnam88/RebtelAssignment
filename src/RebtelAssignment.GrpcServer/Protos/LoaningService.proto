@@ -5,11 +5,11 @@ import "Contracts/Common.proto";
 package LoaningServices;
 
 service LoaningService {
-  rpc LoanBooks(LoanRequest) returns (Common.Loan);
-  rpc ReturnBooks(ReturnBookRequest) returns(Common.Loan);
+  rpc LoanBooks(LoanRequestMsg) returns (Common.LoanMsg);
+  rpc ReturnBooks(ReturnBookRequestMsg) returns(Common.LoanMsg);
 }
 
-message LoanRequest{
+message LoanRequestMsg{
   repeated int64 BatchId = 1;
   int64 MemberId = 2;
 }
@@ -18,7 +18,7 @@ message ReturnLoanItem{
   int64 BatchId = 1;
   Common.LoanItemStatusMsg ItemStatus = 2;
 }
-message ReturnBookRequest{
+message ReturnBookRequestMsg{
   int64 LoanId = 1;
   int64 MemberId = 2;
   repeated ReturnLoanItem LoanItem = 3;

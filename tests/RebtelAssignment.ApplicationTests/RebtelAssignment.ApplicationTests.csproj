@@ -20,10 +20,21 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Moq" Version="4.20.72" />
+        <PackageReference Include="Shouldly" Version="4.3.0" />
+        <PackageReference Include="AutoFixture" Version="4.18.1" />
     </ItemGroup>
 
     <ItemGroup>
         <Using Include="Xunit"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Queries\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\RebtelAssignment.Application\RebtelAssignment.Application.csproj" />
     </ItemGroup>
 
 </Project>

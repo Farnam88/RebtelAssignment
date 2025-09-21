@@ -17,27 +17,27 @@ message DecimalValue {
   sfixed32 nanos = 2;
 }
 
-message TimeRange {
+message TimeRangeMsg {
   google.protobuf.Timestamp From = 1;
   google.protobuf.Timestamp To = 2;
 }
 
 
-message Member{
+message MemberMsg{
   int64 Id = 1;
   string DisplayName = 2;
   google.protobuf.StringValue Email=3;
 }
 
 //Common Contracts
-message Loan{
+message LoanMsg{
   int64 Id = 1;
   int64 MemberId = 2;
   google.protobuf.Timestamp LoanedAt = 6;
   google.protobuf.Timestamp DueAt = 7;
-  repeated LoanItem Items = 15;
+  repeated LoanItemMsg Items = 15;
 }
-message LoanItem{
+message LoanItemMsg{
   int64 LoanId = 1;
   int64 BatchId = 2;
   int64 BookId = 3;
@@ -53,20 +53,20 @@ enum LoanItemStatusMsg{
   BRS_Missing = 4;
 }
 
-message Book {
+message BookMsg {
   int64 Id = 1;
   string Title = 2;
   repeated string Author = 3;
-  string Subjects = 4;
+  repeated string Subjects = 4;
 }
 
-message InventoryItem{
+message InventoryItemMsg{
   int64 BatchId = 1;
   int64 Quantity = 2;
   int64 QuantityLent = 3;
   int64 AvailableQuantity = 4;
 }
-message Batch{
+message BatchMsg{
   int64 Id = 1;
   int64 BookId = 2;
   string Isbn = 3;

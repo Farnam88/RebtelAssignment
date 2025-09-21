@@ -4,48 +4,48 @@ import "Contracts/Common.proto";
 package InsightServices;
 
 service InsightsService {
-  rpc MostLoanedBooks(MostLoanedBooksRequest) returns (MostLoanedBooksResponse);
-  rpc TopMembersByLoanCount(TopMembersByLoanCountRequest) returns (TopMembersByLoanCountResponse);
-  rpc EstimateReadingPace(EstimateReadingPaceRequest) returns (EstimateReadingPaceResponse);
-  rpc CoLoanedBooks(CoLoanedBooksRequest) returns (CoLoanedBooksResponse);
+  rpc TopLoanedBooks(TopLoanedBooksRequestMsg) returns (TopLoanedBooksResponseMsg);
+  rpc TopMembersByLoanCount(TopMembersByLoanCountRequestMsg) returns (TopMembersByLoanCountResponseMsg);
+  rpc MemberReadingPace(MemberReadingPaceRequestMsg) returns (MemberReadingPaceResponseMsg);
+  rpc CoLoanedBooks(CoLoanedBooksRequestMsg) returns (CoLoanedBooksResponseMsg);
 }
 
 
 // Most Loaned book
-message MostLoanedBooksRequest {
+message TopLoanedBooksRequestMsg {
   int32 PageNumber = 1;
   int32 PageSize = 2;
-  Common.TimeRange Range = 3;
+  Common.TimeRangeMsg Range = 3;
 }
-message MostLoanedBooksRow {
+message TopLoanedBooksRow {
   int64 BookId = 1;
   string Title = 2;
   int64 Count = 3;
 }
-message MostLoanedBooksResponse {
-  repeated MostLoanedBooksRow Items = 1;
+message TopLoanedBooksResponseMsg {
+  repeated TopLoanedBooksRow Items = 1;
   int32 PageNumber = 2;
   int32 PageSize = 3;
-  int64 TotalItems = 4;
+  int32 TotalItems = 4;
 }
 
 //Top Borrowers
-message TopMembersByLoanCountRequest {
+message TopMembersByLoanCountRequestMsg {
   int32 PageNumber = 1;
   int32 PageSize = 2;
-  Common.TimeRange Range = 3;
+  Common.TimeRangeMsg Range = 3;
 }
 message TopMembersByLoanCountRow  {
   int64 MemberId = 1;
   string DisplayName = 2;
-  int64 Count = 3;
+  int32 Count = 3;
 }
-message TopMembersByLoanCountResponse {
+message TopMembersByLoanCountResponseMsg {
   repeated TopMembersByLoanCountRow  rows = 1;
 }
 
 // reading pace
-message EstimateReadingPaceRequest {
+message MemberReadingPaceRequestMsg {
   int64 MemberId = 1;
 }
 message ReadingPaceRow {
@@ -54,13 +54,13 @@ message ReadingPaceRow {
   int64 Pages = 3;
   Common.DecimalValue PagePerDay = 4;
 }
-message EstimateReadingPaceResponse {
+message MemberReadingPaceResponseMsg {
   double OverallPagesPerDay = 1;
   repeated ReadingPaceRow ReadingPacePerBook = 2;
 }
 
 //Co-Loaned books
-message CoLoanedBooksRequest{
+message CoLoanedBooksRequestMsg{
   int32 PageNumber = 1;
   int32 PageSize = 2;
   int64 BookId = 3;
@@ -69,9 +69,9 @@ message CoLoanedBooksRow{
   int64 BookId = 1;
   string Title=2;
   int32 Count = 3;
-  repeated Common.Member Members = 4;
+  repeated Common.MemberMsg Members = 4;
 }
-message CoLoanedBooksResponse{
+message CoLoanedBooksResponseMsg{
   repeated CoLoanedBooksRow Items = 1;
   int32 PageNumber = 2;
   int32 PageSize = 3;
