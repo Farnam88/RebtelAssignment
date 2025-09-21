@@ -1,11 +1,12 @@
 syntax = "proto3";
 
 import "Contracts/Common.proto";
+import "google/protobuf/empty.proto";
 
 package LoaningServices;
 
 service LoaningService {
-  rpc LoanBooks(LoanRequestMsg) returns (Common.LoanMsg);
+  rpc LoanBooks(LoanRequestMsg) returns (google.protobuf.Empty);
   rpc ReturnBooks(ReturnBookRequestMsg) returns(Common.LoanMsg);
 }
 

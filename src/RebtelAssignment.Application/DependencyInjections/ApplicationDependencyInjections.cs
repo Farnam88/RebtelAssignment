@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using RebtelAssignment.Application.Common.PipelineBehaviors;
+using RebtelAssignment.Application.Core.Loaning.Commands;
 
 namespace RebtelAssignment.Application.DependencyInjections;
 

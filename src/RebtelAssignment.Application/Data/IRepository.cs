@@ -69,6 +69,14 @@ public interface IRepository<TEntity> where TEntity : class
     Task<int> CountAsync(ISpecification<TEntity> spec, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Check for existence of a record
+    /// </summary>
+    /// <param name="spec">an implementation of ISpecification</param>
+    /// <param name="cancellationToken">CancellationToken</param>
+    /// <returns>number bool indicating whether a record exist or not</returns>
+    Task<bool> AnyAsync(ISpecification<TEntity> spec, CancellationToken cancellationToken = default);
+    
+    /// <summary>
     /// Add Entity
     /// </summary>
     /// <param name="entity">entity</param>
