@@ -11,11 +11,11 @@ public static class EntityConfigHelper
         builder.HasKey(e => e.Id);
         builder.Property(p => p.CreatedAt)
             .IsRequired()
-            .HasDefaultValueSql("GETUTCDATE()")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
             .ValueGeneratedOnAdd();
 
         builder.Property(p => p.LastModifiedAt)
-            .HasDefaultValueSql("GETUTCDATE()")
+            .HasDefaultValueSql("CURRENT_TIMESTAMP")
             .ValueGeneratedOnUpdate();
     }
 }

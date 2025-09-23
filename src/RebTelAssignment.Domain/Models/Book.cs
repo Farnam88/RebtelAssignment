@@ -4,11 +4,11 @@ namespace RebTelAssignment.Domain.Models;
 
 public class Book : SimpleAuditEntity
 {
-    public Book()
-    {
-        Batches = new HashSet<Batch>();
-        LoanItems = new HashSet<LoanItem>();
-    }
+    // public Book()
+    // {
+    //     Batches = new HashSet<Batch>();
+    //     LoanItems = new HashSet<LoanItem>();
+    // }
 
     public required string Title { get; set; }
     public required List<string> Authors { get; set; }

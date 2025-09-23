@@ -19,8 +19,12 @@ public class LoanConfig : IEntityTypeConfiguration<Loan>
             .HasConversion(CustomConverters.DateOnlyConverter);
 
 
-        builder.HasOne<Member>()
+        builder.HasOne(o => o.Member)
             .WithMany(m => m.Loans)
             .HasForeignKey(f => f.MemberId);
+
+        builder.HasMany(m => m.LoanItems)
+            .WithOne(l => l.Loan)
+            .HasForeignKey(f => f.LoanId);
     }
 }

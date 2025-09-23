@@ -30,10 +30,12 @@ public class BatchConfig : IEntityTypeConfiguration<Batch>
 
         builder.Property(p => p.Pages)
             .IsRequired();
+
+        //had to remove it because of incompatibility with SQLite
+        // builder.Property(p => p.RowVersion)
+        //     .IsRowVersion()
+        //     .ValueGeneratedOnAddOrUpdate();
         
-        builder.Property(p => p.RowVersion)
-            .IsRowVersion()
-            .ValueGeneratedOnAddOrUpdate();
         builder.Property(p => p.Quantity)
             .IsRequired()
             .HasDefaultValue(0);
@@ -51,7 +53,7 @@ public class BatchConfig : IEntityTypeConfiguration<Batch>
             .HasDefaultValue(0);
 
 
-        builder.HasOne<Book>(b => b.Book)
+        builder.HasOne(b => b.Book)
             .WithMany(m => m.Batches)
             .HasForeignKey(f => f.BookId);
     }

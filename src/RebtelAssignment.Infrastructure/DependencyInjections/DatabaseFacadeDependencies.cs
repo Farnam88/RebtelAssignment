@@ -9,9 +9,10 @@ internal static class DatabaseFacadeDependencies
 {
     public static void RegisterDatabaseFacade(this IServiceCollection services)
     {
-        services.AddDbContext<IDbContext,ApplicationDbContext>((sp, o) =>
+        services.AddDbContext<IDbContext, ApplicationDbContext>((o) =>
         {
-            o.UseInMemoryDatabase("RebtelAssignmentDb", options => { options.EnableNullChecks(); });
+            //connection string should not be hardcoded instead azure app config can be used
+            o.UseSqlite("Data Source=rebtel_library_database.db");
         });
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }

@@ -7,20 +7,21 @@ using RebTelAssignment.Domain.Models.Enums;
 
 namespace RebtelAssignment.Application.Core.Insights.DbQueries;
 
-public class MemberLoanItemAggregatedDbQuery : BaseSpec<LoanItem, LoanItemAggregatedModel>
+public class MemberLoanItemAggregatedDbQuery : BaseSpec<Loan, LoanItemAggregatedModel>
 {
     public MemberLoanItemAggregatedDbQuery(long memberId)
     {
         Query.Where(w =>
-            w.Loan.MemberId == memberId && w.ItemStatus != LoanItemStatus.Loaned && w.ReturnedAt != null);
-        Query.Select(s => new LoanItemAggregatedModel
+            w.MemberId == memberId &&
+            w.LoanItems.Any(a => a.ItemStatus != LoanItemStatus.Loaned && a.ReturnedAt != null));
+        Query.SelectMany(s => s.LoanItems.Select(d => new LoanItemAggregatedModel
         {
-            BookId = s.BookId,
-            BatchId = s.BatchId,
-            Title = s.Book.Title,
-            LoanedAt = s.Loan.LoanedAt,
-            ReturnedAt = s.ReturnedAt,
-            Pages = s.Batch.Pages
-        });
+            BookId = d.BookId,
+            BatchId = d.BatchId,
+            Title = d.Book.Title,
+            LoanedAt = s.LoanedAt,
+            ReturnedAt = d.ReturnedAt,
+            Pages = d.Batch.Pages
+        }));
     }
 }

@@ -10,7 +10,6 @@ public class GetMemberSpec : BaseSpec<Member, MemberDto>
     public GetMemberSpec(long memberId)
     {
         Query.Where(w => w.Id == memberId);
-        Query.AsNoTracking();
         Query.Select(s => new MemberDto
         {
             Id = s.Id,

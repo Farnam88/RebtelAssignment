@@ -1,4 +1,5 @@
-﻿using RebTelAssignment.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using RebTelAssignment.Domain.Models;
 using RebTelAssignment.Domain.Models.Enums;
 using RebtelAssignment.Infrastructure.Data;
 
@@ -19,9 +20,9 @@ public static class MigrationInitializer
 
         var hostingLifeTime = scopeAsync.ServiceProvider.GetRequiredService<IHostApplicationLifetime>();
         var cancellationToken = hostingLifeTime.ApplicationStopping;
-        await context.Database.EnsureDeletedAsync(cancellationToken);
+        // await context.Database.EnsureDeletedAsync(cancellationToken);
         await context.Database.EnsureCreatedAsync(cancellationToken);
-
+        // await context.Database.MigrateAsync(cancellationToken);
         #region Books
 
         var books = new List<Book>
@@ -70,7 +71,7 @@ public static class MigrationInitializer
                 QuantityLoaned = 1, //done
                 QuantityDamaged = 0,
                 QuantityMissing = 0,
-                RowVersion = []
+                // RowVersion = []
             },
             new Batch
             {
@@ -85,7 +86,7 @@ public static class MigrationInitializer
                 QuantityLoaned = 0,
                 QuantityDamaged = 0,
                 QuantityMissing = 0,
-                RowVersion = []
+                // RowVersion = []
             },
             new Batch
             {
@@ -100,7 +101,7 @@ public static class MigrationInitializer
                 QuantityLoaned = 1,
                 QuantityDamaged = 0,
                 QuantityMissing = 0,
-                RowVersion = []
+                //   RowVersion = []
             },
             new Batch
             {
@@ -115,7 +116,7 @@ public static class MigrationInitializer
                 QuantityLoaned = 1,
                 QuantityDamaged = 0,
                 QuantityMissing = 0,
-                RowVersion = []
+                //   RowVersion = []
             },
             new Batch
             {
@@ -130,7 +131,7 @@ public static class MigrationInitializer
                 QuantityLoaned = 1, //done
                 QuantityDamaged = 0,
                 QuantityMissing = 0,
-                RowVersion = []
+                //    RowVersion = []
             }
         };
         await context.DbSet<Batch>().AddRangeAsync(batches, hostingLifeTime.ApplicationStopping);

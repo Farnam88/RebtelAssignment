@@ -2,12 +2,12 @@
 
 namespace RebTelAssignment.Domain.Models;
 
-public class Batch : SimpleAuditEntity, IConcurrentEntity
+public class Batch : SimpleAuditEntity//, IConcurrentEntity
 {
-    public Batch()
-    {
-        LoanItems = new HashSet<LoanItem>();
-    }
+    // public Batch()
+    // {
+    //     LoanItems = new HashSet<LoanItem>();
+    // }
 
     public long BookId { get; set; }
     public required string Isbn { get; set; }
@@ -21,7 +21,8 @@ public class Batch : SimpleAuditEntity, IConcurrentEntity
     public required long QuantityDamaged { get; set; }
     public required long QuantityMissing { get; set; }
     public long QuantityAvailable => Quantity - QuantityLoaned - QuantityDamaged - QuantityMissing;
-    public byte[] RowVersion { get; set; }
+    //had to remove it because of incompatibility with SQLite
+    // public byte[] RowVersion { get; set; }
     public virtual Book Book { get; set; }
     public virtual ICollection<LoanItem> LoanItems { get; set; }
 

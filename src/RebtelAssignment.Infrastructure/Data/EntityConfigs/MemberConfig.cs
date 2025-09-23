@@ -12,5 +12,9 @@ public class MemberConfig : IEntityTypeConfiguration<Member>
 
         builder.Property(p => p.DisplayName)
             .IsRequired();
+
+        builder.HasMany(m => m.Loans)
+            .WithOne(l => l.Member)
+            .HasForeignKey(f => f.MemberId);
     }
 }

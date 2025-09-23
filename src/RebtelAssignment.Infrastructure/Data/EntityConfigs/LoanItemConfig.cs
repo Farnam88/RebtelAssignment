@@ -32,15 +32,15 @@ public class LoanItemConfig : IEntityTypeConfiguration<LoanItem>
             .HasMaxLength(4000)
             .IsUnicode();
 
-        builder.HasOne<Batch>()
+        builder.HasOne(o => o.Batch)
             .WithMany(m => m.LoanItems)
             .HasForeignKey(f => f.BatchId);
 
-        builder.HasOne<Book>()
+        builder.HasOne(o => o.Book)
             .WithMany(m => m.LoanItems)
             .HasForeignKey(f => f.BookId);
 
-        builder.HasOne<Loan>()
+        builder.HasOne(o => o.Loan)
             .WithMany(m => m.LoanItems)
             .HasForeignKey(f => f.LoanId);
     }

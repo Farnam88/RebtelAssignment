@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using RebTelAssignment.Domain.Models.BaseModels;
 using RebtelAssignment.Infrastructure.Data.EntityConfigs;
 
@@ -27,5 +28,18 @@ public class ApplicationDbContext : DbContext, IDbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(BookConfig).Assembly);
+    }
+}
+
+public sealed class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
+{
+    public ApplicationDbContext CreateDbContext(string[] args)
+    {
+        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            // Use a RELATIONAL provider here (not InMemory)
+            .UseSqlite("Data Source=rebtel_library_database.db")
+            .Options;
+
+        return new ApplicationDbContext(options);
     }
 }

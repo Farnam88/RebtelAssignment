@@ -30,10 +30,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Queries\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\..\src\RebtelAssignment.Application\RebtelAssignment.Application.csproj" />
     </ItemGroup>
 

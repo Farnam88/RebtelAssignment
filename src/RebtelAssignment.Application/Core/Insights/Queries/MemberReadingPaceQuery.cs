@@ -25,9 +25,10 @@ public class MemberReadingPaceQueryHandler : BaseQueryHandler<MemberReadingPaceQ
     public override async Task<ResultModel<MemberReadingPaceResponseDto>> Handle(MemberReadingPaceQuery request,
         CancellationToken ct = default)
     {
-        var loanItemRepository = Uow.Repository<LoanItem>();
+        //TODO: check if member exists to have better responses.
+        var loanRepository = Uow.Repository<Loan>();
         var loanItemsAggregatedResult =
-            await loanItemRepository.ToListAsync(new MemberLoanItemAggregatedDbQuery(request.MemberId), ct);
+            await loanRepository.ToListAsync(new MemberLoanItemAggregatedDbQuery(request.MemberId), ct);
 
         if (!loanItemsAggregatedResult.Any())
             return new NotFoundException("This Member has not been loaning any books");

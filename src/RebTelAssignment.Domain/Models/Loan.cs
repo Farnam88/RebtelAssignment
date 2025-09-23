@@ -4,10 +4,10 @@ namespace RebTelAssignment.Domain.Models;
 
 public class Loan : SimpleAuditEntity
 {
-    public Loan()
-    {
-        LoanItems = new HashSet<LoanItem>();
-    }
+    // public Loan()
+    // {
+    //     LoanItems = new HashSet<LoanItem>();
+    // }
 
     public required long MemberId { get; set; }
     public DateTime LoanedAt { get; set; }
