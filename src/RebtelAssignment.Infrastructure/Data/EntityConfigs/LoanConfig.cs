@@ -12,8 +12,7 @@ public class LoanConfig : IEntityTypeConfiguration<Loan>
         EntityConfigHelper.SetAuditColumns(builder);
 
         builder.Property(p => p.LoanedAt)
-            .IsRequired()
-            .HasConversion(CustomConverters.DateOnlyConverter);
+            .IsRequired();
 
         builder.Property(p => p.DueAt)
             .IsRequired()

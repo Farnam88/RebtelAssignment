@@ -2,7 +2,7 @@
 
 namespace RebTelAssignment.Domain.Models;
 
-public class Batch : SimpleAuditEntity
+public class Batch : SimpleAuditEntity, IConcurrentEntity
 {
     public Batch()
     {
@@ -16,9 +16,14 @@ public class Batch : SimpleAuditEntity
     public int Edition { get; set; }
     public required long Pages { get; set; }
 
+    public required long Quantity { get; set; }
+    public required long QuantityLoaned { get; set; }
+    public required long QuantityDamaged { get; set; }
+    public required long QuantityMissing { get; set; }
+    public long QuantityAvailable => Quantity - QuantityLoaned - QuantityDamaged - QuantityMissing;
+    public byte[] RowVersion { get; set; }
     public virtual Book Book { get; set; }
     public virtual ICollection<LoanItem> LoanItems { get; set; }
-    public virtual InventoryItem InventoryItem { get; set; }
 
     //future extensions of the Batch
     // public string? Section { get; set; }

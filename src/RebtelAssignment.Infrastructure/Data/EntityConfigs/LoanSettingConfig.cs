@@ -14,7 +14,8 @@ public class LoanSettingConfig : IEntityTypeConfiguration<LoanSetting>
         builder.Property(p => p.LoanDurationUnitType)
             .IsRequired()
             .HasDefaultValue(LoanDurationUnitType.Day)
-            .HasSentinel(LoanDurationUnitType.Unspecified);
+            .HasSentinel(LoanDurationUnitType.Unspecified)
+            .HasConversion<int>();
 
         builder.Property(p => p.Value)
             .IsRequired()

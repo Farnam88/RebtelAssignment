@@ -4,11 +4,11 @@ using RebTelAssignment.Domain.Models;
 using RebTelAssignment.Domain.Models.Enums;
 using RebTelAssignment.Domain.Shared.Extensions;
 
-namespace RebtelAssignment.Application.Core.Loaning.RepositorySpecifications;
+namespace RebtelAssignment.Application.Core.Loaning.DbQueries;
 
-public class GetMemberUnreturnedLoansSpec : BaseSpec<Loan>
+public class GetMemberUnreturnedLoansDbQuery : BaseSpec<Loan>
 {
-    public GetMemberUnreturnedLoansSpec(long memberId)
+    public GetMemberUnreturnedLoansDbQuery(long memberId)
     {
         Query.Where(w => w.MemberId == memberId &&
                          w.DueAt < DateTime.UtcNow.ToDateOnly() &&

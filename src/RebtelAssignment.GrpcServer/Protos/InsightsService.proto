@@ -7,7 +7,7 @@ service InsightsService {
   rpc TopLoanedBooks(TopLoanedBooksRequestMsg) returns (TopLoanedBooksResponseMsg);
   rpc TopMembersByLoanCount(TopMembersByLoanCountRequestMsg) returns (TopMembersByLoanCountResponseMsg);
   rpc MemberReadingPace(MemberReadingPaceRequestMsg) returns (MemberReadingPaceResponseMsg);
-  rpc CoLoanedBooks(CoLoanedBooksRequestMsg) returns (CoLoanedBooksResponseMsg);
+  rpc LoaningPatternByBooks(LoaningPatternByBookRequestMsg) returns (LoaningPatternByBookResponseMsg);
 }
 
 
@@ -15,12 +15,11 @@ service InsightsService {
 message TopLoanedBooksRequestMsg {
   int32 PageNumber = 1;
   int32 PageSize = 2;
-  Common.TimeRangeMsg Range = 3;
 }
 message TopLoanedBooksRow {
   int64 BookId = 1;
   string Title = 2;
-  int64 Count = 3;
+  int32 Count = 3;
 }
 message TopLoanedBooksResponseMsg {
   repeated TopLoanedBooksRow Items = 1;
@@ -38,41 +37,38 @@ message TopMembersByLoanCountRequestMsg {
 message TopMembersByLoanCountRow  {
   int64 MemberId = 1;
   string DisplayName = 2;
-  int32 Count = 3;
+  int32 LoanCount = 3;
 }
 message TopMembersByLoanCountResponseMsg {
-  repeated TopMembersByLoanCountRow  rows = 1;
+  repeated TopMembersByLoanCountRow  Items = 1;
+  int32 PageNumber = 2;
+  int32 PageSize = 3;
+  int32 TotalItems = 4;
 }
 
 // reading pace
 message MemberReadingPaceRequestMsg {
   int64 MemberId = 1;
 }
-message ReadingPaceRow {
-  int64 BatchId = 1;
-  int64 BookId = 2;
-  int64 Pages = 3;
-  Common.DecimalValue PagePerDay = 4;
+
+message MemberReadingPaceRow{
+  int64 BookId = 1;
+  string Title = 2;
+  Common.DecimalValue readingPace = 3;
 }
 message MemberReadingPaceResponseMsg {
-  double OverallPagesPerDay = 1;
-  repeated ReadingPaceRow ReadingPacePerBook = 2;
+  double OverallReadingPagesPerDay = 1;
+  repeated MemberReadingPaceRow Books = 2;
 }
 
 //Co-Loaned books
-message CoLoanedBooksRequestMsg{
+message LoaningPatternByBookRequestMsg{
   int32 PageNumber = 1;
   int32 PageSize = 2;
   int64 BookId = 3;
 }
-message CoLoanedBooksRow{
-  int64 BookId = 1;
-  string Title=2;
-  int32 Count = 3;
-  repeated Common.MemberMsg Members = 4;
-}
-message CoLoanedBooksResponseMsg{
-  repeated CoLoanedBooksRow Items = 1;
+message LoaningPatternByBookResponseMsg{
+  repeated Common.BookMsg Items = 1;
   int32 PageNumber = 2;
   int32 PageSize = 3;
   int32 TotalItems = 4;

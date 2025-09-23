@@ -2,7 +2,7 @@
 using RebTelAssignment.Domain.Models.Enums;
 using RebTelAssignment.Domain.Shared.Extensions;
 
-namespace RebtelAssignment.Application.Core.Loaning.Commands;
+namespace RebtelAssignment.Application.Core.Services;
 
 public interface ILoanDueDateCalculatorService
 {

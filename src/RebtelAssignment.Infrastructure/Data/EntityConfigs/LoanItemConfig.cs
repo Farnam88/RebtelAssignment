@@ -23,7 +23,8 @@ public class LoanItemConfig : IEntityTypeConfiguration<LoanItem>
         builder.Property(p => p.ItemStatus)
             .IsRequired()
             .HasDefaultValue(LoanItemStatus.Loaned)
-            .HasSentinel(LoanItemStatus.Unspecified);
+            .HasSentinel(LoanItemStatus.Unspecified)
+            .HasConversion<int>();
 
         builder.Property(p => p.ReturnedAt);
 

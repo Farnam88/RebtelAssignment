@@ -3,7 +3,7 @@ using RebtelAssignment.Application.Common.Abstractions.Specifications;
 using RebtelAssignment.Application.Common.DataTransferObjects;
 using RebTelAssignment.Domain.Models;
 
-namespace RebtelAssignment.Application.Core.CommonSpecifications;
+namespace RebtelAssignment.Application.Core.CommonDbQueries;
 
 public class GetMemberSpec : BaseSpec<Member, MemberDto>
 {
@@ -14,8 +14,6 @@ public class GetMemberSpec : BaseSpec<Member, MemberDto>
         Query.Select(s => new MemberDto
         {
             Id = s.Id,
-            Email = s.Email,
-            PhoneNumber = s.PhoneNumber,
             DisplayName = s.DisplayName
         });
     }

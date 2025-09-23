@@ -8,5 +8,6 @@ public static class GrpcServicesDependencyInjection
     {
         
         services.AddGrpc(options => { options.Interceptors.Add<ExceptionInterceptor>(); });
+        services.AddGrpcReflection();
     }
 }

@@ -137,7 +137,8 @@ public static class GrpcExceptionHandler
     {
         var responseMetadata = new Metadata()
         {
-            { ErrorCode, ExceptionErrorCodes.UnhandledException.ToString() }
+            { ErrorCode, ExceptionErrorCodes.UnhandledException.ToString() },
+            { ErrorMessage, ExceptionDisplayErrorMessages.UnhandledException }
         };
         foreach (var trailer in exception.Trailers)
         {

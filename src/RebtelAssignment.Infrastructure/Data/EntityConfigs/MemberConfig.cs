@@ -12,13 +12,5 @@ public class MemberConfig : IEntityTypeConfiguration<Member>
 
         builder.Property(p => p.DisplayName)
             .IsRequired();
-
-        builder.Property(p => p.Email)
-            .HasMaxLength(254)
-            .IsUnicode();
-
-        builder.Property(p => p.PhoneNumber)
-            .HasMaxLength(50)
-            .IsUnicode();
     }
 }

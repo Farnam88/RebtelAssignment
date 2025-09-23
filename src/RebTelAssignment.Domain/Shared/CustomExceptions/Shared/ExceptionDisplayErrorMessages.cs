@@ -1,6 +1,6 @@
 namespace RebTelAssignment.Domain.Shared.CustomExceptions.Shared;
 
-internal static class ExceptionDisplayErrorMessages
+public static class ExceptionDisplayErrorMessages
 {
     public const string BusinessLogicException = "Business logic error";
     public const string DataValidationException = "Invalid data error";

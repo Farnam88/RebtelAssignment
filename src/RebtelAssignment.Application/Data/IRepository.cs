@@ -1,8 +1,9 @@
 using Ardalis.Specification;
+using RebTelAssignment.Domain.Models.BaseModels;
 
 namespace RebtelAssignment.Application.Data;
 
-public interface IRepository<TEntity> where TEntity : class
+public interface IRepository<TEntity> where TEntity : class, IEntityFlag
 {
     /// <summary>
     /// Get first of default of the Dto object
@@ -45,12 +46,13 @@ public interface IRepository<TEntity> where TEntity : class
     /// <summary>
     /// Get IList of the Dto object
     /// </summary>
-    /// <param name="spec">an implementation of ISpecificationWithSelector</param>
+    /// <param name="spec" cref="ISpecification{TEntity,TResult}">an implementation of ISpecificationWithSelector</param>
     /// <param name="cancellationToken">CancellationToken</param>
     /// <typeparam name="TResult">Expected Dto result</typeparam>
     /// <returns>Task of Dto object set</returns>
     Task<IList<TResult>> ToListAsync<TResult>(ISpecification<TEntity, TResult> spec,
         CancellationToken cancellationToken = default);
+
 
     /// <summary>
     /// Get IList of the Entity object
@@ -59,6 +61,8 @@ public interface IRepository<TEntity> where TEntity : class
     /// <param name="cancellationToken">CancellationToken</param>
     /// <returns>Task of Entity set</returns>
     Task<IList<TEntity>> ToListAsync(ISpecification<TEntity> spec, CancellationToken cancellationToken = default);
+    
+
 
     /// <summary>
     /// Count the records
@@ -68,6 +72,7 @@ public interface IRepository<TEntity> where TEntity : class
     /// <returns>number of records in Int32</returns>
     Task<int> CountAsync(ISpecification<TEntity> spec, CancellationToken cancellationToken = default);
 
+
     /// <summary>
     /// Check for existence of a record
     /// </summary>
@@ -75,7 +80,7 @@ public interface IRepository<TEntity> where TEntity : class
     /// <param name="cancellationToken">CancellationToken</param>
     /// <returns>number bool indicating whether a record exist or not</returns>
     Task<bool> AnyAsync(ISpecification<TEntity> spec, CancellationToken cancellationToken = default);
-    
+
     /// <summary>
     /// Add Entity
     /// </summary>

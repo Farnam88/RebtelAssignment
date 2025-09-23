@@ -1,6 +1,7 @@
 ﻿using Common;
 using Google.Protobuf.WellKnownTypes;
 using Mapster;
+using RebtelAssignment.Application.Common.DataTransferObjects;
 
 namespace RebtelAssignment.GrpcServer.Services.Shared.Mappings;
 
@@ -28,12 +29,14 @@ public class CommonMappingConfig : IRegister
 
         config.NewConfig<DateOnly, Timestamp>()
             .Map(dest => dest,
-                src => Timestamp.FromDateTime(DateTime.SpecifyKind(src.ToDateTime(TimeOnly.MinValue), DateTimeKind.Utc)));
+                src => Timestamp.FromDateTime(DateTime.SpecifyKind(src.ToDateTime(TimeOnly.MinValue),
+                    DateTimeKind.Utc)));
 
         config.NewConfig<DateOnly?, Timestamp>()
             .Map(dest => dest,
                 src => src.HasValue
-                    ? Timestamp.FromDateTime(DateTime.SpecifyKind(src.Value.ToDateTime(TimeOnly.MinValue), DateTimeKind.Utc))
+                    ? Timestamp.FromDateTime(DateTime.SpecifyKind(src.Value.ToDateTime(TimeOnly.MinValue),
+                        DateTimeKind.Utc))
                     : null);
 
         config.NewConfig<Timestamp, DateTime>()
@@ -43,6 +46,13 @@ public class CommonMappingConfig : IRegister
         config.NewConfig<Timestamp, DateTime?>()
             .Map(dest => dest,
                 src => src.ToDateTime());
+        
+        config.NewConfig<TimeRangeMsg, DateTimeRangeDto>()
+            .Map(dest => dest.From,
+                src => src.From.Adapt<DateTime>())
+            .Map(dest => dest.To,
+                src => src.To.Adapt<DateTime>());
+
 
         TypeAdapterConfig.GlobalSettings.Default.RequireDestinationMemberSource(true);
         TypeAdapterConfig.GlobalSettings.Default.IgnoreNullValues(true);

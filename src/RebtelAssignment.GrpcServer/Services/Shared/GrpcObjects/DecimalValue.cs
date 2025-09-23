@@ -1,4 +1,5 @@
-﻿namespace Common;
+﻿// ReSharper disable once CheckNamespace
+namespace Common;
 
 public partial class DecimalValue
 {

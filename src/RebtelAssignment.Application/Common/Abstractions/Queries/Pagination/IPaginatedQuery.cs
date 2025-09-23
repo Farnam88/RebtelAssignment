@@ -11,6 +11,7 @@ public interface IPaginatedQuery<out TResponse> : IRequest<TResponse>
 
 public abstract record BasePaginatedQuery<T> : IPaginatedQuery<ResultModel<IPaginationResponse<T>>>
 {
+    
     public int PageNumber { get; set; }
     public int PageSize { get; set; }
 }

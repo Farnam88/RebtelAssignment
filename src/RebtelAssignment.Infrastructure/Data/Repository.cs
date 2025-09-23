@@ -51,14 +51,15 @@ internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class,
     public async Task<IList<TEntity>> ToListAsync(ISpecification<TEntity> spec,
         CancellationToken cancellationToken = default)
     {
-        return await _dbSet.WithSpecification(spec).ToListAsync(cancellationToken)??new List<TEntity>();;
+        return await _dbSet.WithSpecification(spec).ToListAsync(cancellationToken);
+        ;
     }
 
     public async Task<int> CountAsync(ISpecification<TEntity> spec, CancellationToken cancellationToken = default)
     {
         return await _dbSet.WithSpecification(spec).CountAsync(cancellationToken);
     }
-    
+
     public async Task<bool> AnyAsync(ISpecification<TEntity> spec, CancellationToken cancellationToken = default)
     {
         return await _dbSet.WithSpecification(spec).AnyAsync(cancellationToken);

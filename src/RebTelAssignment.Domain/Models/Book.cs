@@ -8,7 +8,6 @@ public class Book : SimpleAuditEntity
     {
         Batches = new HashSet<Batch>();
         LoanItems = new HashSet<LoanItem>();
-        InventoryItems = new HashSet<InventoryItem>();
     }
 
     public required string Title { get; set; }
@@ -16,5 +15,4 @@ public class Book : SimpleAuditEntity
     public required List<string> Subjects { get; set; }
     public virtual ICollection<Batch> Batches { get; set; }
     public virtual ICollection<LoanItem> LoanItems { get; set; }
-    public virtual ICollection<InventoryItem> InventoryItems { get; set; }
 }

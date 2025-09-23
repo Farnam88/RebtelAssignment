@@ -7,6 +7,6 @@ public interface ICommand<out TResponse> : IRequest<TResponse>
 {
 }
 
-public abstract class BaseCommand<T> : ICommand<ResultModel<T>>
+public abstract record BaseCommand<T> : ICommand<ResultModel<T>>
 {
 }

@@ -20,8 +20,4 @@
         <ProjectReference Include="..\RebTelAssignment.Domain\RebTelAssignment.Domain.csproj"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Core\Loaning\Queries\" />
-    </ItemGroup>
-
 </Project>

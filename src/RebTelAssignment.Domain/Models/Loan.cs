@@ -10,7 +10,7 @@ public class Loan : SimpleAuditEntity
     }
 
     public required long MemberId { get; set; }
-    public DateOnly LoanedAt { get; set; }
+    public DateTime LoanedAt { get; set; }
     public DateOnly DueAt { get; set; }
     public virtual Member Member { get; set; }
     public virtual ICollection<LoanItem> LoanItems { get; set; }

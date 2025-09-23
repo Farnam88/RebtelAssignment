@@ -30,6 +30,25 @@ public class BatchConfig : IEntityTypeConfiguration<Batch>
 
         builder.Property(p => p.Pages)
             .IsRequired();
+        
+        builder.Property(p => p.RowVersion)
+            .IsRowVersion()
+            .ValueGeneratedOnAddOrUpdate();
+        builder.Property(p => p.Quantity)
+            .IsRequired()
+            .HasDefaultValue(0);
+
+        builder.Property(p => p.QuantityLoaned)
+            .IsRequired()
+            .HasDefaultValue(0);
+
+        builder.Property(p => p.QuantityDamaged)
+            .IsRequired()
+            .HasDefaultValue(0);
+
+        builder.Property(p => p.QuantityMissing)
+            .IsRequired()
+            .HasDefaultValue(0);
 
 
         builder.HasOne<Book>(b => b.Book)

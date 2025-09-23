@@ -1,18 +1,17 @@
-﻿using Ardalis.Specification;
-using AutoFixture;
+﻿using AutoFixture;
 using MapsterMapper;
-using MediatR;
 using Moq;
 using RebtelAssignment.Application.Common.Abstractions.Specifications;
 using RebtelAssignment.Application.Common.DataTransferObjects;
-using RebtelAssignment.Application.Core.CommonSpecifications;
 using RebtelAssignment.Application.Core.Loaning.Commands;
-using RebtelAssignment.Application.Core.Loaning.RepositorySpecifications;
+using RebtelAssignment.Application.Core.Services;
 using RebtelAssignment.Application.Data;
 using RebTelAssignment.Domain.Models;
 using RebTelAssignment.Domain.Models.Enums;
 using RebTelAssignment.Domain.Shared.CustomExceptions;
 using RebTelAssignment.Domain.Shared.DataWrapper;
+using RebTelAssignment.Domain.Shared.Events;
+using RebTelAssignment.Domain.Shared.Events.EventMessages;
 using RebTelAssignment.Domain.Shared.Extensions;
 using Shouldly;
 
@@ -22,12 +21,11 @@ public class LoanBookTests
 {
     private readonly Fixture _fixture;
     private readonly CancellationToken _ct;
-    private readonly Mock<IMediator> _mediatorMock;
     private readonly LoanBookCommandHandler _sut;
     private readonly Mock<ILoanDueDateCalculatorService> _dueDateCalculatorMock;
+    private readonly Mock<IEventPublisher<LoanCreatedMessage>> _eventPublisher;
 
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
-    private readonly Mock<IMapper> _mapperMock;
 
     public LoanBookTests()
     {
@@ -36,12 +34,11 @@ public class LoanBookTests
         // Autofixture v4 doesn't have support for DateOnly/TimeOnly types
         _fixture.Customize<DateOnly>(composer => composer.FromFactory((DateTime dt) => DateOnly.FromDateTime(dt)));
         _ct = CancellationToken.None;
-        _mediatorMock = new();
         _unitOfWorkMock = new();
         _dueDateCalculatorMock = new();
-        _mapperMock = new();
+        _eventPublisher = new();
         _sut = new LoanBookCommandHandler(_unitOfWorkMock.Object, _dueDateCalculatorMock.Object,
-            _mapperMock.Object);
+            _eventPublisher.Object);
     }
 
     [Fact]
@@ -79,19 +76,15 @@ public class LoanBookTests
         ResultModel<Success> expectedResult =
             ResultModel<Success>.Fail(new BusinessLogicException("Batch has no available quantity"));
 
-        var loanBookRequest = new LoanBookCommand
-        {
-            BatchIds = [1],
-            MemberId = 1
-        };
+        var loanBookRequest = new LoanBookCommand([1], 1);
 
         var batchRepoMock = new Mock<IRepository<Batch>>();
 
         var noAvailabilityBatch = _fixture.Create<Batch>();
-        noAvailabilityBatch.InventoryItem.Quantity = 10;
-        noAvailabilityBatch.InventoryItem.QuantityLoaned = 3;
-        noAvailabilityBatch.InventoryItem.QuantityDamaged = 3;
-        noAvailabilityBatch.InventoryItem.QuantityMissing = 4;
+        noAvailabilityBatch.Quantity = 10;
+        noAvailabilityBatch.QuantityLoaned = 3;
+        noAvailabilityBatch.QuantityDamaged = 3;
+        noAvailabilityBatch.QuantityMissing = 4;
 
         batchRepoMock.Setup(s => s.ToListAsync(It.IsAny<BaseSpec<Batch>>(), _ct))
             .ReturnsAsync(new List<Batch>
@@ -124,19 +117,15 @@ public class LoanBookTests
         ResultModel<Success> expectedResult =
             ResultModel<Success>.Fail(new NotFoundException("Member not found"));
 
-        var loanBookRequest = new LoanBookCommand
-        {
-            BatchIds = [1],
-            MemberId = 1
-        };
+        var loanBookRequest = new LoanBookCommand([1], 1);
 
         var batchRepoMock = new Mock<IRepository<Batch>>();
 
         var batch = _fixture.Create<Batch>();
-        batch.InventoryItem.Quantity = 10;
-        batch.InventoryItem.QuantityLoaned = 1;
-        batch.InventoryItem.QuantityDamaged = 1;
-        batch.InventoryItem.QuantityMissing = 1;
+        batch.Quantity = 10;
+        batch.QuantityLoaned = 1;
+        batch.QuantityDamaged = 1;
+        batch.QuantityMissing = 1;
 
         batchRepoMock.Setup(s => s.ToListAsync(It.IsAny<BaseSpec<Batch>>(), _ct))
             .ReturnsAsync(new List<Batch>
@@ -168,7 +157,7 @@ public class LoanBookTests
         result.ShouldBeEquivalentTo(expectedResult);
         batchRepoMock.Verify(v => v.ToListAsync(It.IsAny<BaseSpec<Batch>>(), _ct), Times.Once);
         memberRepoMock.Verify(
-            v => v.FirstOrDefaultAsync(It.IsAny<BaseSpec<Member, MemberDto>>(), It.IsAny<CancellationToken>()),
+            v => v.FirstOrDefaultAsync(It.IsAny<BaseSpec<Member, MemberDto>>(), _ct),
             Times.Once);
         _unitOfWorkMock.Verify(v => v.Repository<Batch>());
         _unitOfWorkMock.Verify(v => v.Repository<Member>());
@@ -181,19 +170,15 @@ public class LoanBookTests
         ResultModel<Success> expectedResult =
             ResultModel<Success>.Fail(new InternalServiceException("LoanSetting is not set"));
 
-        var loanBookRequest = new LoanBookCommand
-        {
-            BatchIds = [1],
-            MemberId = 1
-        };
+        var loanBookRequest = new LoanBookCommand([1], 1);
 
         var batchRepoMock = new Mock<IRepository<Batch>>();
 
         var batch = _fixture.Create<Batch>();
-        batch.InventoryItem.Quantity = 10;
-        batch.InventoryItem.QuantityLoaned = 1;
-        batch.InventoryItem.QuantityDamaged = 1;
-        batch.InventoryItem.QuantityMissing = 1;
+        batch.Quantity = 10;
+        batch.QuantityLoaned = 1;
+        batch.QuantityDamaged = 1;
+        batch.QuantityMissing = 1;
 
         batchRepoMock.Setup(s => s.ToListAsync(It.IsAny<BaseSpec<Batch>>(), _ct))
             .ReturnsAsync(new List<Batch>
@@ -237,7 +222,7 @@ public class LoanBookTests
         batchRepoMock.Verify(v => v.ToListAsync(It.IsAny<BaseSpec<Batch>>(), _ct),
             Times.Once);
         memberRepoMock.Verify(
-            v => v.FirstOrDefaultAsync(It.IsAny<BaseSpec<Member, MemberDto>>(), It.IsAny<CancellationToken>()),
+            v => v.FirstOrDefaultAsync(It.IsAny<BaseSpec<Member, MemberDto>>(), _ct),
             Times.Once);
         loanSettingRepoMock.Verify(s =>
             s.FirstOrDefaultAsync(It.IsAny<BaseSpec<LoanSetting>>(), _ct), Times.Once);
@@ -254,19 +239,15 @@ public class LoanBookTests
             ResultModel<Success>.Fail(
                 new BusinessLogicException("The member has an unreturned loan that is passed is due date"));
 
-        var loanBookRequest = new LoanBookCommand
-        {
-            BatchIds = [1],
-            MemberId = 1
-        };
+        var loanBookRequest = new LoanBookCommand([1], 1);
 
         var batchRepoMock = new Mock<IRepository<Batch>>();
 
         var batch = _fixture.Create<Batch>();
-        batch.InventoryItem.Quantity = 10;
-        batch.InventoryItem.QuantityLoaned = 1;
-        batch.InventoryItem.QuantityDamaged = 1;
-        batch.InventoryItem.QuantityMissing = 1;
+        batch.Quantity = 10;
+        batch.QuantityLoaned = 1;
+        batch.QuantityDamaged = 1;
+        batch.QuantityMissing = 1;
 
         batchRepoMock.Setup(s => s.ToListAsync(It.IsAny<BaseSpec<Batch>>(), _ct))
             .ReturnsAsync(new List<Batch>
@@ -319,7 +300,7 @@ public class LoanBookTests
         batchRepoMock.Verify(v => v.ToListAsync(It.IsAny<BaseSpec<Batch>>(), _ct),
             Times.Once);
         memberRepoMock.Verify(
-            v => v.FirstOrDefaultAsync(It.IsAny<BaseSpec<Member, MemberDto>>(), It.IsAny<CancellationToken>()),
+            v => v.FirstOrDefaultAsync(It.IsAny<BaseSpec<Member, MemberDto>>(), _ct),
             Times.Once);
         loanSettingRepoMock.Verify(s =>
             s.FirstOrDefaultAsync(It.IsAny<BaseSpec<LoanSetting>>(), _ct), Times.Once);
@@ -336,19 +317,15 @@ public class LoanBookTests
     {
         //Arrange
         ResultModel<Success> expectedResult = Success.Created;
-        var loanBookRequest = new LoanBookCommand
-        {
-            BatchIds = [1],
-            MemberId = 1
-        };
+        var loanBookRequest = new LoanBookCommand([1], 1);
 
         var batchRepoMock = new Mock<IRepository<Batch>>();
 
         var batch = _fixture.Create<Batch>();
-        batch.InventoryItem.Quantity = 10;
-        batch.InventoryItem.QuantityLoaned = 1;
-        batch.InventoryItem.QuantityDamaged = 1;
-        batch.InventoryItem.QuantityMissing = 1;
+        batch.Quantity = 10;
+        batch.QuantityLoaned = 1;
+        batch.QuantityDamaged = 1;
+        batch.QuantityMissing = 1;
 
         var batchList = new List<Batch>
         {
@@ -398,7 +375,9 @@ public class LoanBookTests
         _unitOfWorkMock.Setup(s => s.Repository<Loan>())
             .Returns(loanRepoMock.Object)
             .Verifiable();
-        
+
+        _eventPublisher.Setup(s => s.Publish(It.IsAny<LoanCreatedMessage>(), _ct))
+            .Verifiable();
         //Act
 
         var result = await _sut.Handle(loanBookRequest, _ct);
@@ -409,7 +388,7 @@ public class LoanBookTests
         batchRepoMock.Verify(v => v.ToListAsync(It.IsAny<BaseSpec<Batch>>(), _ct),
             Times.Once);
         memberRepoMock.Verify(
-            v => v.FirstOrDefaultAsync(It.IsAny<BaseSpec<Member, MemberDto>>(), It.IsAny<CancellationToken>()),
+            v => v.FirstOrDefaultAsync(It.IsAny<BaseSpec<Member, MemberDto>>(), _ct),
             Times.Once);
         loanSettingRepoMock.Verify(s =>
             s.FirstOrDefaultAsync(It.IsAny<BaseSpec<LoanSetting>>(), _ct), Times.Once);
@@ -417,7 +396,11 @@ public class LoanBookTests
             s.AnyAsync(It.IsAny<BaseSpec<Loan>>(), _ct), Times.Once);
 
         loanRepoMock.Verify(s => s.AddAsync(It.IsAny<Loan>(), _ct), Times.Once);
-        _dueDateCalculatorMock.Verify(s => s.CalculateLoanDueDate(It.IsAny<LoanSetting>(), It.IsAny<DateTime>())
+        _dueDateCalculatorMock.Verify(s => s.CalculateLoanDueDate(It.IsAny<LoanSetting>(),
+                It.IsAny<DateTime>())
+            , Times.Once);
+
+        _eventPublisher.Verify(s => s.Publish(It.IsAny<LoanCreatedMessage>(), _ct)
             , Times.Once);
 
         _unitOfWorkMock.Verify(v => v.Repository<Batch>());
